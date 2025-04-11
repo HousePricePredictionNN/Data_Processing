@@ -2,6 +2,7 @@ import os
 import glob
 import pandas as pd
 from processors.data_processor import DataProcessor
+from utils.path_utils import get_dataset_path
 
 class ApartmentPricesProcessor(DataProcessor):
     def __init__(self):
@@ -9,14 +10,16 @@ class ApartmentPricesProcessor(DataProcessor):
 
     def _get_paths(self, base_dir):
         """Define input/output paths"""
-        input_path = os.path.join(base_dir, 'data', '1_apartment_prices', 'raw')
-        output_path = os.path.join(base_dir, 'data', '1_apartment_prices', 'final')
-        os.makedirs(output_path, exist_ok=True)
+        input_path = get_dataset_path(base_dir, 'apartment_prices', 'raw')
+        output_path = get_dataset_path(base_dir, 'apartment_prices', 'final')
+
+        self.output_paths['lodz'] = get_dataset_path(base_dir, 'apartment_prices', 'final', 'data_lodz.csv')
+
         return input_path, output_path
 
-    def _read_data(self, input_path):
+    def _read_data(self):
         """Read data from input path"""
-        pattern = os.path.join(input_path, 'apartments_pl_*.csv')
+        pattern = os.path.join(self.input_path, 'apartments_pl_*.csv')
         csv_files = glob.glob(pattern)
 
         filtered_files = []
@@ -48,15 +51,12 @@ class ApartmentPricesProcessor(DataProcessor):
     def _transform_data(self, df):
         return df
     
-    def _save_data(self, df, output_path):
+    def _save_data(self, df):
         """Save data to output path"""
-
-        output_file = os.path.join(output_path, 'data_combined.csv')
+        output_file = os.path.join(self.output_path, 'data.csv')
         df.to_csv(output_file, sep=';', encoding='utf-8', index=False)
         self.logger.info(f"Saved combined data to {output_file}")
 
-
         df_lodz = df[df['city'] == 'lodz']
-        lodz_output_file = os.path.join(output_path, 'data_combined_lodz.csv')
-        df_lodz.to_csv(lodz_output_file, sep=';', encoding='utf-8', index=False)
-        self.logger.info(f"Saved Lodz data to {lodz_output_file} with {df_lodz.shape[0]} rows")
+        df_lodz.to_csv(self.output_paths['lodz'], sep=';', encoding='utf-8', index=False)
+        self.logger.info(f"Saved Lodz data with {df_lodz.shape[0]} rows")

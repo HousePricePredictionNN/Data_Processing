@@ -1,6 +1,7 @@
 import os
 import pandas as pd
 from processors.data_processor import DataProcessor
+from utils.path_utils import get_dataset_path
 
 class WarsawFlatPrices(DataProcessor):
     def __init__(self):
@@ -8,14 +9,14 @@ class WarsawFlatPrices(DataProcessor):
 
     def _get_paths(self, base_dir):
         """Define input/output paths"""
-        input_path = os.path.join(base_dir, 'data', '5_warsaw_flat_prices', 'raw')
-        output_path = os.path.join(base_dir, 'data', '5_warsaw_flat_prices', 'final')
-        os.makedirs(output_path, exist_ok=True)
+        input_path = get_dataset_path(base_dir, 'warsaw_flat_prices', 'raw')
+        output_path = get_dataset_path(base_dir, 'warsaw_flat_prices', 'final')
+
         return input_path, output_path
     
-    def _read_data(self, input_path):
+    def _read_data(self):
         """Read data from input path"""
-        kaggle_3_data_path = os.path.join(input_path, 'Warsaw_flat_prices_25_Sep_22.csv')
+        kaggle_3_data_path = os.path.join(self.input_path, 'Warsaw_flat_prices_25_Sep_22.csv')
         df_kaggle3 = pd.read_csv(kaggle_3_data_path, sep=',', encoding='utf-8', low_memory=False)
         return df_kaggle3
     
@@ -50,11 +51,12 @@ class WarsawFlatPrices(DataProcessor):
         # Add standard year and month columns for consistency with other datasets
         df['year'] = 2022
         df['month'] = 9
+        df['city'] = 'Warszawa'
 
         return df
     
     
-    def _save_data(self, df, output_path):
+    def _save_data(self, df):
         """Save data to output path"""
-        output_file_path = os.path.join(output_path, 'data_combined.csv')
+        output_file_path = os.path.join(self.output_path, 'data.csv')
         df.to_csv(output_file_path, sep=';', encoding='utf-8', index=False)

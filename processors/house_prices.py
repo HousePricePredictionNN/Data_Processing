@@ -1,6 +1,7 @@
 import os
 import pandas as pd
 from processors.data_processor import DataProcessor
+from utils.path_utils import get_dataset_path
 
 class HousePricesProcessor(DataProcessor):
     def __init__(self):
@@ -8,14 +9,14 @@ class HousePricesProcessor(DataProcessor):
 
     def _get_paths(self, base_dir):
         """Define input/output paths"""
-        input_path = os.path.join(base_dir, 'data', '2_house_prices', 'raw')
-        output_path = os.path.join(base_dir, 'data', '2_house_prices', 'final')
-        os.makedirs(output_path, exist_ok=True)
+        input_path = get_dataset_path(base_dir, 'house_prices', 'raw')
+        output_path = get_dataset_path(base_dir, 'house_prices', 'final')
+
         return input_path, output_path
         
-    def _read_data(self, input_path):
+    def _read_data(self):
         """Read data from input path"""
-        kaggle_2_data_path = os.path.join(input_path, 'Houses.csv')
+        kaggle_2_data_path = os.path.join(self.input_path, 'Houses.csv')
         df_kaggle2 = pd.read_csv(kaggle_2_data_path, sep=',', encoding='latin-1', low_memory=False)
         return df_kaggle2
     
@@ -70,8 +71,8 @@ class HousePricesProcessor(DataProcessor):
         df['year'] = 2021
         return df
     
-    def _save_data(self, df, output_path):
+    def _save_data(self, df):
         """Save data to output path"""
-        output_file = os.path.join(output_path, 'data_combined.csv')
-        df.to_csv(output_file, sep=';', encoding='utf-8', index=False)
-        self.logger.info(f"Saved combined data to {output_file}")
+        output_file_path = os.path.join(self.output_path, 'data.csv')
+        df.to_csv(output_file_path, sep=';', encoding='utf-8', index=False)
+        self.logger.info(f"Saved combined data to {output_file_path}")
