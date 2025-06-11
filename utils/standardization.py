@@ -20,9 +20,11 @@ def ensure_standard_columns(df, required_columns, optional_columns):
     if missing_required:
         raise ValueError(f"Missing required columns: {missing_required}")
 
-    for col in optional_columns:
-        if col not in df.columns:
-            df[col] = pd.NA  
+    # Only add optional columns if the DataFrame has data
+    if not df.empty:
+        for col in optional_columns:
+            if col not in df.columns:
+                df[col] = pd.NA
 
     return df
 
@@ -33,9 +35,9 @@ def standardize_data_types(df):
             df[col] = pd.to_numeric(df[col], errors='coerce')        
 
     bool_cols = ['has_parking', 'has_balcony', 'has_elevator', 'has_security']
-    for col in bool_cols:
-        if col in df.columns:
-            df[col] = df[col].fillna(False).astype(bool)
+    # for col in bool_cols:
+    #     if col in df.columns:
+    #         df[col] = df[col].fillna(False).astype(bool)
 
     if 'listing_year' in df.columns:
         df['listing_year'] = df['listing_year'].astype('Int64')

@@ -4,8 +4,6 @@ from processors.apartment_prices import ApartmentPricesProcessor
 from processors.house_prices import HousePricesProcessor
 from processors.flat_prices import FlatPricesProcessor
 from processors.olx_house_prices import OlxHousePricesProcessor
-from processors.warsaw_flat_prices import WarsawFlatPrices
-from processors.numbers_apartment_prices import NumbersApartmentPrices
 from processors.otodom_current_prices import OtodomCurrentPrices
 from processors.allegro_prices import AllegroPrices
 from integration.integrator import DatasetIntegrator
@@ -35,8 +33,6 @@ def main():
         HousePricesProcessor(),
         FlatPricesProcessor(),
         OlxHousePricesProcessor(),
-        WarsawFlatPrices(),
-        NumbersApartmentPrices(),
         OtodomCurrentPrices(),
         AllegroPrices(),
     ]

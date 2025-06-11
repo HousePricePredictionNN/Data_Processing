@@ -32,18 +32,18 @@ DATASET_CONFIG = {
         'final': 'data\\olx_house_prices\\final',
         'file_name': 'data.csv',
     },
-    'warsaw_flat_prices': {
-        'raw': 'data\\warsaw_flat_prices\\raw',
-        'processed': 'data\\warsaw_flat_prices\\processed',
-        'final': 'data\\warsaw_flat_prices\\final',
-        'file_name': 'data.csv',
-    },
-    'numbers_apartment_prices': {
-        'raw': 'data\\numbers_apartment_prices\\raw',
-        'processed': 'data\\numbers_apartment_prices\\processed',
-        'final': 'data\\numbers_apartment_prices\\final',
-        'file_name': 'data.csv',
-    },
+    # 'warsaw_flat_prices': {
+    #     'raw': 'data\\warsaw_flat_prices\\raw',
+    #     'processed': 'data\\warsaw_flat_prices\\processed',
+    #     'final': 'data\\warsaw_flat_prices\\final',
+    #     'file_name': 'data.csv',
+    # },
+    # 'numbers_apartment_prices': {
+    #     'raw': 'data\\numbers_apartment_prices\\raw',
+    #     'processed': 'data\\numbers_apartment_prices\\processed',
+    #     'final': 'data\\numbers_apartment_prices\\final',
+    #     'file_name': 'data.csv',
+    # },
     'otodom_current_prices': {
         'raw': 'data\\otodom_current_prices\\raw',
         'processed': 'data\\otodom_current_prices\\processed',
